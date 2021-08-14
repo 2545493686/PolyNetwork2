@@ -121,7 +121,7 @@ namespace GameGravity.PolyNetwork
                 {
                     Log($"连接服务器成功: {address}:{port}");
                     
-                    asyncAction.ReportResult(ConnectResult.success);
+                    asyncAction.ReportResult(ConnectResult.success, AsyncInvokeDelegate);
 
                     var timer = new System.Timers.Timer(1000) { AutoReset = true };
                     timer.Elapsed += (c, a) => client.Send(new { i = -1 });
@@ -130,7 +130,7 @@ namespace GameGravity.PolyNetwork
                 else
                 {
                     Log($"连接错误: {error}");
-                    asyncAction.ReportResult(ConnectResult.error);
+                    asyncAction.ReportResult(ConnectResult.error, AsyncInvokeDelegate);
                 }
             };
 
@@ -158,7 +158,7 @@ namespace GameGravity.PolyNetwork
             if (client.IsConnect != true)
             {
                 Log("发送消息出错：服务器已经断开，请重新连接");
-                action.ReportResult(null);
+                action.ReportResult(null, AsyncInvokeDelegate);
                 return action;
             }
             
